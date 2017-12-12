@@ -1,8 +1,8 @@
-# VPIN_HFT
+# VPIN HFT
 
 The market agents can be classified as informed and uninformed traders. As informed traders act on information, growth in their activity are sign of upcoming price change. This activity is called as flow toxicity and can be quantified with VPIN. The VPIN measure is updated in volume time and can be calculated by classifying trades as buys or sells. Along with VPIN we consider Quote Imbalance to develop a trading strategy. We show that VPIN and Quote Imbalance can be used as signals for price movement and can be used to build trading strategy. A comparative study between empirical method and different supervised learning methods is done.
 
-VPIN and CDF
+## VPIN and CDF
 
 This paper presents a strategy to take advantage of flow toxicity in the market. The Probability of Informed Trading (PIN) model was developed by Easely and O’Hara (1992) to measure toxicity in the market. Under this model, in a time window there is α chance of an information event happening and δ chance the information event will be good. With these probabilities, the expected price of the stock at the end of the time window is given by following formula.
 
@@ -30,11 +30,11 @@ VPIN=  αμ/(αμ+2ε)≈  (∑_(τ=1)^n▒〖|V_B^τ-V_S^τ |〗)/nV
 Here, the trade imbalance is aggregated over n volume buckets with each bucket comprising of V trades. The VPIN is updated after every new volume bucket with trailing n volume buckets.
 While VPIN quantifies the toxicity well, the authors realized that its absolute value does not signify much information. While studying E-mini S&P 500 future around the 2010 flash crash the authors found that the Cumulative Distribution Density (CDF) of VPIN was high hours before the crash. Figure [1] shows the VPIN on that day remained between 0.2 to 0.4, which does not relay much information as it is difficult to understand a new metric like VPIN. But the CDF of VPIN went from 0.40 in morning to 0.95 couple of hours before the crash.
 
-QUOTE IMBALANCE
+## QUOTE IMBALANCE
 
 VPIN and its CDF are good at quantifying toxicity in the market. But since both are on absolute scale, it fails to give direction of impending market movement. For that we considered Quote Imbalance. Different agents in the market view market differently. All agents place orders at different prices on buy and sell side. As trades happen, these orders are cleared with liquidity from market makers. All the market makes are constantly observing the order flow. Market makers tend to provide more liquidity on the side they expect the market to move. If they expect the price to rise, they will provide more liquidity on the bid side to buy stock before price increases. Quote Imbalance tries to quantify the difference in bid and ask quote volume.
 Most of the times, price change takes place across all exchanges. Some exchanges lag others but if price changes on only one exchange, it is mostly because of some glitch. Also, lot of times the stocks in one industry are positively correlated. These stocks move in separate direction only when the news is specific to one stock. Quarterly earnings, changes in leadership are an example of that. But on rest of the days, the stocks move together. When there is similar shift in market across exchanges and across assets, the price change is almost certain.
 
-CROSS-EXCHANGES and CROSS-ASSET CORRELATION
+## CROSS-EXCHANGES and CROSS-ASSET CORRELATION
 
 To measure relation across exchanges and across assets, we looked at toxicity at all exchanges and similar stocks. The VPIN needs to be calculated with different volume buckets for different exchanges and stocks. The VPIN needs to be updated at about same speed. We decided to divide the volume at all exchanges and assets such as to get equal buckets on regular day. Average daily trading volume is very useful to decide volume buckets for each exchange and stock. As Easley, Prado and O’Hara (2012) realized that CDF of VPIN is a better indicator than actual VPIN itself, we also compared the CDF of VPIN at different exchanges and for different stocks. We decided to calculate average rolling correlation of CDF across the exchanges and across the stocks. These two numbers will increase when there is higher correlation between the underlying CDFs.
