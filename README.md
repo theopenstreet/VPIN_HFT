@@ -4,12 +4,7 @@ The market agents can be classified as informed and uninformed traders. As infor
 
 ## VPIN and CDF
 
-This paper presents a strategy to take advantage of flow toxicity in the market. The Probability of Informed Trading (PIN) model was developed by Easely and O’Hara (1992) to measure toxicity in the market. Under this model, in a time window there is α chance of an information event happening and δ chance the information event will be good. With these probabilities, the expected price of the stock at the end of the time window is given by following formula.
-
-![image](/e1.png "Title")
-
-
-Under this model the informed trades act on the information event and arrive at the rate of μ. The uninformed traders arrive at the rate of ε irrespective of information event. With this the flow toxicity can be quantified by PIN as,
+This paper presents a strategy to take advantage of flow toxicity in the market. The Probability of Informed Trading (PIN) model was developed by Easely and O’Hara (1992) to measure toxicity in the market. Under this model, in a time window there is α chance of an information event happening and δ chance the information event will be good. Under this model the informed trades act on the information event and arrive at the rate of μ. The uninformed traders arrive at the rate of ε irrespective of information event. With this the flow toxicity can be quantified by PIN as
 
 PIN=  αμ/(αμ+2ε)
 
@@ -19,15 +14,9 @@ Easley, Prado and O’Hara (2012) extended the logic behind PIN to Volume Synchr
 
 With volume bucketing the authors extend PIN to a practical metric Volume Synchronized Probability of Informed Trading (VPIN). VPIN can be calculated using just the trades data. While the overall increase in volume level suggests occurrence of an information event, the direction of volume change indicates the type of the information. If the new information is good, there will be more buy volume compared to sell volume and vice versa. This leads to the next problem of classifying volume as buy volume or sell volume. To estimate buy and sell volume the authors use change in stock price over the window. Increase in the price will indicate higher buy volume and decrease in the price will indicate higher sell volume. The gap between buy and sell volume will be higher if the price change is significant. But since we are using volume bucketing, checking only start and end price will ignore the price path. To handle that the authors divide each window in small time intervals, then divide volume in each small window and then aggregate it. The authors use normal distribution to estimate the split between buy and sell volume.
 
-V_τ^B= ∑_(i=t(τ-1)+1)^t(τ)sum〖V_i  .Z((P_i-P_(i-1))/σ_ΔP ) 〗
-V_τ^S=V-V_τ^B
+The estimate of buy volume and sell volume can be used to calculate VPIN. From formula of PIN, we know αμ represents the informed trading activity. As informed trading is always based on some information, it is directional in nature and difference between buy volume and sell volume reflects it. 
 
-Here Z is the CDF of normal distribution and σ_ΔP is the estimate of standard deviation of the price change between time bars.
-The estimate of buy volume and sell volume can be used to calculate VPIN. From formula of PIN, we know αμ represents the informed trading activity. As informed trading is always based on some information, it is directional in nature and difference between buy volume and sell volume reflects it. So the authors quantify VPIN as follows,
-
-VPIN=  αμ/(αμ+2ε)≈  (∑_(τ=1)^n sum〖|V_B^τ-V_S^τ |〗)/nV
-
-Here, the trade imbalance is aggregated over n volume buckets with each bucket comprising of V trades. The VPIN is updated after every new volume bucket with trailing n volume buckets.
+The trade imbalance is aggregated over n volume buckets with each bucket comprising of V trades. The VPIN is updated after every new volume bucket with trailing n volume buckets.
 While VPIN quantifies the toxicity well, the authors realized that its absolute value does not signify much information. While studying E-mini S&P 500 future around the 2010 flash crash the authors found that the Cumulative Distribution Density (CDF) of VPIN was high hours before the crash. 
 
 ## QUOTE IMBALANCE
