@@ -39,8 +39,29 @@ Most of the times, price change takes place across all exchanges. Some exchanges
 
 To measure relation across exchanges and across assets, we looked at toxicity at all exchanges and similar stocks. The VPIN needs to be calculated with different volume buckets for different exchanges and stocks. The VPIN needs to be updated at about same speed. We decided to divide the volume at all exchanges and assets such as to get equal buckets on regular day. Average daily trading volume is very useful to decide volume buckets for each exchange and stock. As Easley, Prado and O’Hara (2012) realized that CDF of VPIN is a better indicator than actual VPIN itself, we also compared the CDF of VPIN at different exchanges and for different stocks. We decided to calculate average rolling correlation of CDF across the exchanges and across the stocks. These two numbers will increase when there is higher correlation between the underlying CDFs.
 
+## EMPIRICAL STARTEGY
 
-## Empirical Strategy
+In order to create a trading strategy based on VPIN, we must analyse how different market participants react to toxicity in order flows. As has been discussed in the earlier sections, high VPIN indicates that there is a high probability of informed trading in the market. As such, the VPIN does not provide any information on the direction in which the asset price moves but that there will  be a significant move. 
+
+Let us assume for now that we know that there is a positive news about the asset. The informed traders submit a large number of buy orders which will push the VPIN higher by increasing the flow toxicity. The market makers would then respond by changing the structure of liquidity by providing more liquidity on the bid side (posting higher bid quote volume) in order to secure a net long position. Therefore, looking at high quote imbalance in conjunction with VPIN can provide a good short-term buy/sell signal.
+There are a couple of caveats in deriving this signal. 
+
+First, we must make sure that the high VPIN signals are not arising due to liquidity bottlenecks or arbitrage between individual exchanges. Since VPIN calculations are tied to trade volume imbalances in an asset; It could be possibly that we might get high VPIN signals when liquidity flows between exchanges due to their structure and characteristics. These are more precisely captured by models dealing with Market structure and design issues as well as the process of Information and disclosure. 
+
+To make sure that our VPIN signal is indeed a signal for high flow toxicity, we must use the VPIN CDF average correlation metric between exchanges for a particular asset as derived in the previous section. This metric when used with the VPIN CDF tells us that the high flow toxicity is a pan exchange phenomenon. 
+
+Second, we must also eliminate the idiosyncratic effects in the asset leading to high VPIN that again may arise due to structural aspects related to the assets trading activity and are not representative of an increase in flow toxicity. For this we use the multi asset VPIN average correlation metric as described in the earlier section. When used in tandem with the VPIN CDF metric; we would only isolate industry wide information signals while having bestowed greater confidence on VPIN signal.
+
+The directional information of the asset is given by the quote imbalance metric, which reports the average difference between bid volume and ask volume across exchanges. As discussed above, when there is high quote imbalance, the market makers are trying to secure a positive position in the market and therefore, together with a high VPIN metric, this would be buy signal. Since, the updates on the VPIN metric are volume dependent and not time dependent, it also makes sense to create a strategy that whose holding period is dependent on arrival of new information from the VPIN.
+
+Pre-processing: First we calculate the VPIN CDF, exchange VPIN average correlation and VPIN assets VPIN average correlation metrics as described in the previous sections. We then expand this data to 1 min frequency. We filter the data between 8 AM and 4 PM since VPIN metrics are updated very slowly before open and after close. 
+
+We calculate z-scores by taking the rolling average and rolling standard deviation using a window of previous 100 mins making sure that there is no look ahead. We also winsorize the z-scores for each of the metrics.
+
+When the VPIN CDF metric is greater than 0.5 and has high correlation among assets and exchanges, we are fairly certain that it is a flow toxicity signal. We then check if the quote imbalance is greater than 1.5 standard deviations, which is a buy signal. The death count makes sure that the long position expires within 10 periods (10 min) if there are no further buy signals. We treat the short positions in a similar manner. This way the holding period is variable and potentially long term if we get repeating signals in one direction. When the quote imbalance z-score is no longer > 1.5, that means that the market makers are willing to cover their positions by supplying liquidity and posting asks, therefore we will no longer get a buy signal and the algorithm will cover the long position in 10 periods. The logic for the sell signal follows in a similar manner.
+
+
+## Algorithm
 
 1)	Check if the VPIN CDF z-score > 0.5 and (Exchange Corr z-score + Asset Corr z-score) > 4:
 
