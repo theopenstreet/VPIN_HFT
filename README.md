@@ -38,3 +38,18 @@ Most of the times, price change takes place across all exchanges. Some exchanges
 ## CROSS-EXCHANGES and CROSS-ASSET CORRELATION
 
 To measure relation across exchanges and across assets, we looked at toxicity at all exchanges and similar stocks. The VPIN needs to be calculated with different volume buckets for different exchanges and stocks. The VPIN needs to be updated at about same speed. We decided to divide the volume at all exchanges and assets such as to get equal buckets on regular day. Average daily trading volume is very useful to decide volume buckets for each exchange and stock. As Easley, Prado and O’Hara (2012) realized that CDF of VPIN is a better indicator than actual VPIN itself, we also compared the CDF of VPIN at different exchanges and for different stocks. We decided to calculate average rolling correlation of CDF across the exchanges and across the stocks. These two numbers will increase when there is higher correlation between the underlying CDFs.
+
+
+
+
+1)	Check if the VPIN CDF z-score > 0.5 and (Exchange Corr z-score + Asset Corr z-score) > 4:
+    a.	If Quote Imbalance z-score > 1.5:
+        i.	Cover all short positions
+        ii.	Add to long position
+        iii.	Reset long death count to 10 periods
+    b.	If Quote Imbalance z-score <- 1.5:
+        i.	Cover all long positions
+        ii.	Add to short position
+        iii.	Reset short death count to 10 periods
+2)	If death count reaches 0, exit long/ short position.
+
