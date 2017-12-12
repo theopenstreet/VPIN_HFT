@@ -50,7 +50,7 @@ We calculate z-scores by taking the rolling average and rolling standard deviati
 When the VPIN CDF metric is greater than 0.5 and has high correlation among assets and exchanges, we are fairly certain that it is a flow toxicity signal. We then check if the quote imbalance is greater than 1.5 standard deviations, which is a buy signal. The death count makes sure that the long position expires within 10 periods (10 min) if there are no further buy signals. We treat the short positions in a similar manner. This way the holding period is variable and potentially long term if we get repeating signals in one direction. When the quote imbalance z-score is no longer > 1.5, that means that the market makers are willing to cover their positions by supplying liquidity and posting asks, therefore we will no longer get a buy signal and the algorithm will cover the long position in 10 periods. The logic for the sell signal follows in a similar manner.
 
 
-## Algorithm
+## ALGORITHM
 
 1)	Check if the VPIN CDF z-score > 0.5 and (Exchange Corr z-score + Asset Corr z-score) > 4:
 
