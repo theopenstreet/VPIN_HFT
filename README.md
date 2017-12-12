@@ -6,7 +6,7 @@ The market agents can be classified as informed and uninformed traders. As infor
 
 This paper presents a strategy to take advantage of flow toxicity in the market. The Probability of Informed Trading (PIN) model was developed by Easely and O’Hara (1992) to measure toxicity in the market. Under this model, in a time window there is α chance of an information event happening and δ chance the information event will be good. With these probabilities, the expected price of the stock at the end of the time window is given by following formula.
 
-![Alt text](/relative/path/to/img.jpg?raw=true "Optional Title")
+![image](/e1.png "Title")
 
 
 Under this model the informed trades act on the information event and arrive at the rate of μ. The uninformed traders arrive at the rate of ε irrespective of information event. With this the flow toxicity can be quantified by PIN as,
