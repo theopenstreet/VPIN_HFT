@@ -43,13 +43,22 @@ To measure relation across exchanges and across assets, we looked at toxicity at
 ## Empirical Strategy
 
 1)	Check if the VPIN CDF z-score > 0.5 and (Exchange Corr z-score + Asset Corr z-score) > 4:
+
 a.	If Quote Imbalance z-score > 1.5:
+
 i.	Cover all short positions
+
 ii.	Add to long position
+
 iii.	Reset long death count to 10 periods
+
 b.	If Quote Imbalance z-score <- 1.5:
+
 i.	Cover all long positions
+
 ii.	Add to short position
+
 iii.	Reset short death count to 10 periods
+
 2)	If death count reaches 0, exit long/ short position.
 
