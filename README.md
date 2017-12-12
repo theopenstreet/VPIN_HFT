@@ -19,16 +19,16 @@ Easley, Prado and O’Hara (2012) extended the logic behind PIN to Volume Synchr
 
 With volume bucketing the authors extend PIN to a practical metric Volume Synchronized Probability of Informed Trading (VPIN). VPIN can be calculated using just the trades data. While the overall increase in volume level suggests occurrence of an information event, the direction of volume change indicates the type of the information. If the new information is good, there will be more buy volume compared to sell volume and vice versa. This leads to the next problem of classifying volume as buy volume or sell volume. To estimate buy and sell volume the authors use change in stock price over the window. Increase in the price will indicate higher buy volume and decrease in the price will indicate higher sell volume. The gap between buy and sell volume will be higher if the price change is significant. But since we are using volume bucketing, checking only start and end price will ignore the price path. To handle that the authors divide each window in small time intervals, then divide volume in each small window and then aggregate it. The authors use normal distribution to estimate the split between buy and sell volume.
 
-V_τ^B= ∑_(i=t(τ-1)+1)^t(τ)▒〖V_i  .Z((P_i-P_(i-1))/σ_ΔP ) 〗
+V_τ^B= ∑_(i=t(τ-1)+1)^t(τ)sum〖V_i  .Z((P_i-P_(i-1))/σ_ΔP ) 〗
 V_τ^S=V-V_τ^B
 
 Here Z is the CDF of normal distribution and σ_ΔP is the estimate of standard deviation of the price change between time bars.
 The estimate of buy volume and sell volume can be used to calculate VPIN. From formula of PIN, we know αμ represents the informed trading activity. As informed trading is always based on some information, it is directional in nature and difference between buy volume and sell volume reflects it. So the authors quantify VPIN as follows,
 
-VPIN=  αμ/(αμ+2ε)≈  (∑_(τ=1)^n▒〖|V_B^τ-V_S^τ |〗)/nV
+VPIN=  αμ/(αμ+2ε)≈  (∑_(τ=1)^n sum〖|V_B^τ-V_S^τ |〗)/nV
 
 Here, the trade imbalance is aggregated over n volume buckets with each bucket comprising of V trades. The VPIN is updated after every new volume bucket with trailing n volume buckets.
-While VPIN quantifies the toxicity well, the authors realized that its absolute value does not signify much information. While studying E-mini S&P 500 future around the 2010 flash crash the authors found that the Cumulative Distribution Density (CDF) of VPIN was high hours before the crash. Figure [1] shows the VPIN on that day remained between 0.2 to 0.4, which does not relay much information as it is difficult to understand a new metric like VPIN. But the CDF of VPIN went from 0.40 in morning to 0.95 couple of hours before the crash.
+While VPIN quantifies the toxicity well, the authors realized that its absolute value does not signify much information. While studying E-mini S&P 500 future around the 2010 flash crash the authors found that the Cumulative Distribution Density (CDF) of VPIN was high hours before the crash. 
 
 ## QUOTE IMBALANCE
 
@@ -43,13 +43,13 @@ To measure relation across exchanges and across assets, we looked at toxicity at
 ## Empirical Strategy
 
 1)	Check if the VPIN CDF z-score > 0.5 and (Exchange Corr z-score + Asset Corr z-score) > 4:
-    a.	If Quote Imbalance z-score > 1.5:
-        i.	Cover all short positions
-        ii.	Add to long position
-        iii.	Reset long death count to 10 periods
-    b.	If Quote Imbalance z-score <- 1.5:
-        i.	Cover all long positions
-        ii.	Add to short position
-        iii.	Reset short death count to 10 periods
+a.	If Quote Imbalance z-score > 1.5:
+i.	Cover all short positions
+ii.	Add to long position
+iii.	Reset long death count to 10 periods
+b.	If Quote Imbalance z-score <- 1.5:
+i.	Cover all long positions
+ii.	Add to short position
+iii.	Reset short death count to 10 periods
 2)	If death count reaches 0, exit long/ short position.
 
